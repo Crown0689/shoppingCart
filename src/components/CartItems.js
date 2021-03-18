@@ -4,7 +4,7 @@ import CartItem from './CartItem'
 
 const CartItems = (props) =>{
     const items = props.cartItemsList.map((element)=>{  
-        console.log(element.product)
+       
        return (<CartItem key={element.id} product={element.product} quantity={element.quantity} />)
 
 })
