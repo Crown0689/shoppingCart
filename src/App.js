@@ -33,24 +33,36 @@ class App extends Component {
 
   }
 
-  addItemtoItemList =  (name, quantity ) =>{
+
+
+  calculateTotalPrice = () => {
+    const reducer = ((accumulator, currentValue) => accumulator + currentValue);
+    const totalPrice = this.state.cartItemsList.map((element) => {
+      
+      return element.product.priceInCents * element.quantity
+
+    }).reduce(reducer)
+    return totalPrice;
+  }
+
+  addItemtoItemList = (name, quantity) => {
     console.log(name)
 
     this.setState((prevState) => {
-      
-      const newProduct = prevState.addingList.filter(item=>item.name===name)
+
+      const newProduct = prevState.addingList.filter(item => item.name === name)
       console.log(newProduct)
-      const newListItem={
-        id: prevState.cartItemsList.length+1,
+      const newListItem = {
+        id: prevState.cartItemsList.length + 1,
         product: newProduct[0],
         quantity: quantity
       }
 
-      const cartItemsList=[...prevState.cartItemsList,newListItem]
-      
+      const cartItemsList = [...prevState.cartItemsList, newListItem]
+
       console.log(cartItemsList)
-      return {cartItemsList};
-      
+      return { cartItemsList };
+
     })
   }
 
@@ -59,7 +71,7 @@ class App extends Component {
     return (
       <div>
         <CartHeader />
-        <CartItems cartItemsList={this.state.cartItemsList} />
+        <CartItems cartItemsList={this.state.cartItemsList} calculateTotalPrice={this.calculateTotalPrice} />
         <UserForm addingList={this.state.addingList} addItemToItemList={this.addItemtoItemList} />
         <CartFooter copyright="2016" />
       </div>

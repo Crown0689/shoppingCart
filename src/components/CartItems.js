@@ -9,6 +9,9 @@ const CartItems = (props) =>{
 
 })
 
+const itemsTotalPrice = (props.calculateTotalPrice()/100)
+
+
         
           
     return (
@@ -24,6 +27,7 @@ const CartItems = (props) =>{
             </div>
             {items}
         </div>
+        Total Price: ${itemsTotalPrice}
         </div>
     )
 }
