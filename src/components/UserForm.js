@@ -8,14 +8,16 @@ class UserForm extends Component {
 
     submitItem = (e) => {
         e.preventDefault();
-        console.log(this.props)
         //function handed over from parent to change state of parent with new Object.
-        this.props.addItemToItemList(this.state.name, parseInt(this.state.quantity));
+        this.props.addItemToItemList(this.state.name, parseInt(this.state.quantity), parseInt(this.state.id));
     }
 
     //onChange Method gets name of target through concept of computed names.
     //[] are necessary and the "name"-attribute of the input-tag has to equal the name of the attribute that should be set in the target.
     onChange=(e)=> this.setState({[e.target.name]:e.target.value})
+/*     setId=(e)=>{
+        this.setState({id: e.target.key})
+    } */
     
     render() {
         return (
@@ -31,9 +33,9 @@ class UserForm extends Component {
                 </p>
                 <p className="form-group">
                     <label className="form-group">Product</label>
-                    <select className="form-control" name="name" id="items" onChange ={this.onChange}>
-                            {this.props.addingList.map((item) => {
-                                return (<option key={item.id} value={item.name}> {item.name}</option>)
+                    <select className="form-control" name="name" id="items" onChange ={this.onChange/* , this.setId */}>
+                            {this.props.addingList.map((item, index) => {
+                                return (<option key={index} value={item.name}> {item.name}</option>)
                             }
                         )}
                     </select>

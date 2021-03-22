@@ -3,9 +3,9 @@ import CartItem from './CartItem'
 
 
 const CartItems = (props) =>{
-    const items = props.cartItemsList.map((element)=>{  
+    const items = props.cartItemsList.map((element, index)=>{  
        
-       return (<CartItem key={element.id} product={element.product} quantity={element.quantity} />)
+       return (<CartItem key={index} product={element.product} quantity={element.quantity} />)
 
 })
 

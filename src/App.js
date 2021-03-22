@@ -31,34 +31,56 @@ class App extends Component {
     this.setState({addingList: json})
   }
 
+  async createItem (item){
+    console.log('item is ', item)
+    const apiObj={
+      quantity: item.quantity,
+      product_id: item.product.product_id
+    }
+    console.log('apiObj.stringify: ', JSON.stringify(apiObj))
+    console.log('APIObjs is', apiObj)
+    const response = await fetch('http://localhost:8082/api/items', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+      body:JSON.stringify( apiObj),      
+    })
+    const newItem = await response.json()
+    console.log (newItem)
+    this.setState({cartItemsList: [...this.state.cartItemsList, item]})
+  }
 
 
   calculateTotalPrice = () => {
+    
     const reducer = ((accumulator, currentValue) => accumulator + currentValue);
     const totalPrice = this.state.cartItemsList.map((element) => {
-      
+     
       return element.product.priceInCents * element.quantity
 
     }).reduce(reducer)
     return totalPrice;
   }
 
-  addItemtoItemList = (name, quantity) => {
+  addItemtoItemList = (name, quantity, id) => {
 
-    this.setState((prevState) => {
-      const newProduct = prevState.addingList.filter(item => item.name === name)
-      console.log(newProduct)
-      const newListItem = {
-        id: prevState.cartItemsList.length + 1,
-        product: newProduct[0],
-        quantity: quantity
-      }
-
-      const cartItemsList = [...prevState.cartItemsList, newListItem]
-
-      return { cartItemsList };
-
-    })
+    
+    const newProduct = this.state.addingList.filter(item => item.name === name)
+     /*  const newProduct = this.state.addingList.filter(item => item.id === id) */
+       const newListItem = { 
+        
+        product:{ 
+          product_id: newProduct[0].id,
+          name: newProduct[0].name,
+          priceInCents: newProduct[0].priceInCents,
+          
+      } ,
+      quantity: quantity
+  } 
+    
+        this.createItem(newListItem)
   }
 
 
